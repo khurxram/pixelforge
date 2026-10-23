@@ -1,0 +1,58 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.label {
+  width: 66px;
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+.swatch {
+  position: relative;
+  width: 30px;
+  height: 22px;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.input {
+  position: absolute;
+  inset: -8px;
+  width: 48px;
+  height: 40px;
+  border: none;
+  padding: 0;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.hex {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.actions .pf-btn {
+  flex: 1;
+}
+
+.hint {
+  margin: 8px 0 0;
+  color: var(--text-faint);
+  font-size: 10.5px;
+  line-height: 1.45;
+}

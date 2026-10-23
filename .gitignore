@@ -20,5 +20,12 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# playwright artifacts
+test-results/
+playwright-report/
+
+# wrangler local state
+.wrangler/
+
 # jetbrains setting folder
 .idea/

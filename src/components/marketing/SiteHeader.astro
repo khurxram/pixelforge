@@ -1,0 +1,209 @@
+---
+/**
+ * Marketing site header: brand, primary nav (separate pages), animated
+ * theme switch, and the single "Start editing" CTA into the editor.
+ */
+import '../../styles/marketing.css';
+
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) => path === href;
+---
+
+<header class="nav">
+	<div class="navInner">
+		<a class="brand" href="/" aria-label="PixelForge home">
+			<svg width="20" height="20" viewBox="0 0 16 16" aria-hidden="true">
+				<path d="M8 1l6 3.5v7L8 15l-6-3.5v-7L8 1z" fill="none" stroke="var(--l-ink)" stroke-width="1.4"></path>
+				<path d="M8 4.6l3 1.75v3.5L8 11.6 5 9.85v-3.5L8 4.6z" fill="#cc785c"></path>
+			</svg>
+			<span class="brandName">PixelForge</span>
+		</a>
+		<nav class="links" aria-label="Primary">
+			<a href="/features" aria-current={isActive('/features') ? 'page' : undefined}>Features</a>
+			<a href="/privacy" aria-current={isActive('/privacy') ? 'page' : undefined}>Privacy</a>
+			<a href="/tech" aria-current={isActive('/tech') ? 'page' : undefined}>Tech</a>
+		</nav>
+		<div class="navActions">
+			<button
+				class="themeToggle"
+				type="button"
+				data-theme-toggle="1"
+				data-testid="theme-toggle"
+				aria-label="Switch to dark mode"
+				title="Switch to dark mode"
+			>
+				<svg class="tIcon tSun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+					<circle cx="12" cy="12" r="4"></circle>
+					<path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+				</svg>
+				<svg class="tIcon tMoon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+				</svg>
+				<span class="tKnob" aria-hidden="true"></span>
+			</button>
+			<a class="btnPrimary" href="/editor">Start editing</a>
+		</div>
+	</div>
+</header>
+
+<script>
+	/* Marketing motion: scroll-reveal (progressive — visible without JS) and a
+	   nav shadow once the page starts scrolling. Shared by every marketing page. */
+	const root = document.documentElement;
+	const revealEls = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	if (revealEls.length && 'IntersectionObserver' in window && !reduce) {
+		root.classList.add('reveal-ready');
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const en of entries) {
+					if (en.isIntersecting) {
+						en.target.classList.add('in');
+						io.unobserve(en.target);
+					}
+				}
+			},
+			{ threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+		);
+		revealEls.forEach((el) => io.observe(el));
+		/* Anything already on screen at load reveals on the next frame. */
+		requestAnimationFrame(() => {
+			for (const el of revealEls) {
+				const r = el.getBoundingClientRect();
+				if (r.top < window.innerHeight * 0.92) {
+					el.classList.add('in');
+					io.unobserve(el);
+				}
+			}
+		});
+	}
+
+	const nav = document.querySelector('.nav');
+	if (nav) {
+		const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+		window.addEventListener('scroll', onScroll, { passive: true });
+		onScroll();
+	}
+</script>
+
+<style>
+	.nav {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background: var(--l-canvas);
+		border-bottom: 1px solid var(--l-hairline);
+		animation: pf-slide-down 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+		transition: box-shadow 0.3s ease;
+	}
+	.nav.scrolled {
+		box-shadow: 0 12px 32px var(--l-shadow-nav);
+	}
+	.navInner {
+		max-width: 1200px;
+		margin: 0 auto;
+		height: 64px;
+		padding: 0 32px;
+		display: flex;
+		align-items: center;
+		gap: 32px;
+	}
+	.brand {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+	.brandName {
+		font-family: var(--l-serif);
+		font-size: 22px;
+		letter-spacing: -0.3px;
+		color: var(--l-ink);
+	}
+	.links {
+		display: flex;
+		gap: 24px;
+		flex: 1;
+	}
+	.links a {
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--l-body);
+		transition: color 0.15s ease;
+	}
+	.links a:hover {
+		color: var(--l-coral);
+	}
+	.links a[aria-current='page'] {
+		color: var(--l-coral);
+	}
+	.navActions {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	/* Theme switch: a sliding knob between sun and moon. */
+	.themeToggle {
+		position: relative;
+		width: 46px;
+		height: 24px;
+		padding: 0;
+		background: var(--l-card);
+		border: 1px solid var(--l-hairline);
+		border-radius: 9999px;
+		display: grid;
+		place-items: center;
+		cursor: pointer;
+		transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+	}
+	.themeToggle:hover {
+		background: var(--l-cream-strong);
+		border-color: var(--l-cream-strong);
+	}
+	.themeToggle:active {
+		transform: scale(0.96);
+	}
+	.tIcon {
+		position: absolute;
+		top: 50%;
+		translate: 0 -50%;
+		color: var(--l-muted);
+		opacity: 0.65;
+		transition: opacity 0.2s ease, color 0.2s ease;
+	}
+	.tSun {
+		left: 7px;
+	}
+	.tMoon {
+		right: 7px;
+	}
+	.tKnob {
+		position: absolute;
+		top: 2px;
+		left: 2px;
+		width: 18px;
+		height: 18px;
+		border-radius: 50%;
+		background: var(--l-coral);
+		box-shadow: 0 1px 3px rgba(20, 20, 19, 0.3);
+		transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	:global(html[data-theme='dark']) .tKnob {
+		transform: translateX(22px);
+	}
+	:global(html[data-theme='dark']) .tSun {
+		opacity: 1;
+		color: var(--l-coral-active);
+	}
+
+	@media (max-width: 768px) {
+		.navInner {
+			padding: 0 20px;
+			gap: 16px;
+		}
+		.links {
+			display: none;
+		}
+	}
+</style>

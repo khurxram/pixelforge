@@ -1,0 +1,81 @@
+.stack {
+  position: fixed;
+  right: 14px;
+  bottom: 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 120;
+  max-width: 420px;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 12px;
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--border-strong);
+  border-left-width: 3px;
+  border-radius: 6px;
+  box-shadow: var(--shadow-pop);
+  font-size: 12px;
+  line-height: 1.5;
+  animation: pf-in 140ms ease-out;
+}
+
+@keyframes pf-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.info {
+  border-left-color: var(--accent);
+}
+.warning {
+  border-left-color: var(--warning);
+}
+.error {
+  border-left-color: var(--danger);
+}
+
+.icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.info .icon {
+  color: var(--accent-hover);
+}
+.warning .icon {
+  color: var(--warning);
+}
+.error .icon {
+  color: var(--danger);
+}
+
+.message {
+  flex: 1;
+  color: var(--text);
+  user-select: text;
+}
+
+.close {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-faint);
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.close:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}

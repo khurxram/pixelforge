@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/marketing/SiteHeader.astro';
+import SiteFooter from '../components/marketing/SiteFooter.astro';
+
+const commitments = [
+	{
+		title: 'No backend, ever',
+		body: 'PixelForge has no server component. There is no API to send an image to, no queue, no “processing” step. Decoding, compositing and encoding all happen with APIs your browser already ships.',
+	},
+	{
+		title: 'No accounts, no tracking',
+		body: 'Nothing to sign up for, no analytics beacons, no cookies, no third-party scripts or CDN assets. Open the network tab while you edit: it stays empty.',
+	},
+	{
+		title: 'Files stay on disk',
+		body: 'Opening a photo or a .pixelforge project reads it straight from your filesystem with the File System Access API. Exporting writes straight back out. Nothing is copied anywhere else.',
+	},
+	{
+		title: 'Autosave lives in your browser',
+		body: 'The working document autosaves into your browser’s IndexedDB storage — local to your profile, clearable at any time, and removed when you clear site data.',
+	},
+	{
+		title: 'Works offline',
+		body: 'Once loaded, PixelForge keeps working with the network switched off. Nothing phones home, so there is nothing to phone home about.',
+	},
+	{
+		title: 'Open by construction',
+		body: 'No obfuscated remote logic, no service you could be locked out of. It is a static site you can inspect, host yourself, and run from a local build.',
+	},
+];
+---
+
+<Layout title="Privacy — PixelForge" shell="landing">
+	<SiteHeader />
+
+	<main class="mk-main">
+		<div class="mk-band">
+			<header class="mk-hero">
+				<span class="mk-eyebrow">Privacy</span>
+				<h1 class="mk-h1">Your photos are nobody else’s business.</h1>
+				<p class="mk-lede">
+					“Local-first” is not a tagline here — it is the architecture. PixelForge has no
+					backend, so there is genuinely nowhere for your images to go.
+				</p>
+			</header>
+
+			<div class="mk-grid">
+				{
+					commitments.map((c, i) => (
+						<article class="mk-card" data-reveal style={`--d: ${i}`}>
+							<h3>{c.title}</h3>
+							<p>{c.body}</p>
+						</article>
+					))
+				}
+			</div>
+
+			<div class="mk-ctaRow" data-reveal>
+				<a class="btnPrimary lg" href="/editor">Open the editor</a>
+				<a class="btnSecondary lg" href="/tech">See the tech stack</a>
+			</div>
+			<p class="mk-meta" data-reveal>
+				Summary: pixels in, pixels out — through your own browser only.
+			</p>
+		</div>
+	</main>
+
+	<SiteFooter />
+</Layout>

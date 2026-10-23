@@ -1,0 +1,249 @@
+---
+import Layout from '../layouts/Layout.astro';
+import App from '../app/App.tsx';
+---
+
+<Layout title="PixelForge Editor" shell="editor">
+	<!--
+		Static first frame: the editor's chrome is part of the HTML itself, so
+		landing → editor transitions always land on a finished-looking screen —
+		never a blank flash. It sits behind the island (z-index: -1) and is
+		covered the instant React paints.
+	-->
+	<div class="frame" aria-hidden="true" data-pf-frame>
+		<div class="top"></div>
+		<div class="opts"></div>
+		<div class="body">
+			<div class="rail"></div>
+			<div class="stage"></div>
+			<div class="side"></div>
+		</div>
+		<div class="status"></div>
+	</div>
+	<script is:inline>
+		/* Match the frame's side-panel split to the user's stored width so the
+		   hand-off to the live island is pixel-still. */
+		try {
+			var w = Number(localStorage.getItem('pf-inspector-w'));
+			if (w >= 200 && w <= 600) {
+				document.documentElement.style.setProperty('--pf-frame-side', Math.round(w) + 'px');
+			}
+		} catch (e) {
+			/* ignore */
+		}
+	</script>
+	<!--
+		Loading overlay: fades in over the static frame with a progress bar
+		that eases toward 90 % while the React island hydrates, then snaps to
+		100 % on the real "app ready" signal and animates away. Honest progress:
+		the bar completes only when the editor is actually interactive, with a
+		safety timeout so it can never trap the user.
+	-->
+	<div id="pf-loading" data-testid="pf-loading" role="status" aria-label="Loading the editor">
+		<div class="loadCard">
+			<div class="loadBrand">PixelForge</div>
+			<div class="loadTag">Local photo studio</div>
+			<div class="loadBar" aria-hidden="true"><div class="loadFill" id="pf-load-fill"></div></div>
+			<div class="loadStatus">Warming up the darkroom…</div>
+		</div>
+	</div>
+	<script is:inline>
+		(function () {
+			var el = document.getElementById('pf-loading');
+			if (!el) return;
+			var fill = document.getElementById('pf-load-fill');
+			var reduced =
+				window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			var progress = 0;
+			var done = false;
+			var timer = null;
+
+			function set(p) {
+				if (fill) fill.style.width = Math.min(100, p) + '%';
+			}
+
+			function finish() {
+				if (done) return;
+				done = true;
+				if (timer) clearInterval(timer);
+				set(100);
+				// Let the completed bar register for a beat, then animate out.
+				setTimeout(
+					function () {
+						el.setAttribute('data-exit', '');
+						var remove = function () {
+							if (el.parentNode) el.parentNode.removeChild(el);
+						};
+						if (reduced) remove();
+						else setTimeout(remove, 420);
+					},
+					reduced ? 0 : 160,
+				);
+			}
+
+			if (reduced) {
+				set(92);
+			} else {
+				// Ease toward 90 % while the island hydrates; the real signal
+				// completes it. Never reaches 100 % on its own.
+				timer = setInterval(function () {
+					progress += (90 - progress) * 0.16 + 0.7;
+					if (progress > 90) progress = 90;
+					set(progress);
+				}, 90);
+			}
+
+			// The app sets the attribute + dispatches the event when React mounts.
+			if (document.documentElement.getAttribute('data-pf-app-ready') !== null) {
+				finish();
+				return;
+			}
+			window.addEventListener('pf-app-ready', finish);
+			// Safety net: never trap the user behind the overlay.
+			setTimeout(finish, 8000);
+		})();
+	</script>
+	<App client:only="react" />
+</Layout>
+
+<style>
+	.frame {
+		position: fixed;
+		inset: 0;
+		z-index: -1;
+		display: flex;
+		flex-direction: column;
+		background: var(--bg-app);
+	}
+	.top {
+		height: 30px;
+		flex: none;
+		border-bottom: 1px solid var(--border);
+	}
+	.opts {
+		height: 36px;
+		flex: none;
+		background: var(--bg-panel);
+		border-bottom: 1px solid var(--border);
+	}
+	.body {
+		flex: 1;
+		min-height: 0;
+		display: flex;
+	}
+	.rail {
+		width: var(--toolbar-w);
+		flex: none;
+		background: var(--bg-panel);
+		border-right: 1px solid var(--border);
+	}
+	.stage {
+		flex: 1;
+		min-width: 0;
+		background: var(--bg-canvas);
+	}
+	.side {
+		width: var(--pf-frame-side, 304px);
+		flex: none;
+		background: var(--bg-panel);
+		border-left: 1px solid var(--border);
+	}
+	.status {
+		height: 24px;
+		flex: none;
+		border-top: 1px solid var(--border);
+	}
+
+	/* ---------------------------- loading overlay --------------------------- */
+
+	#pf-loading {
+		position: fixed;
+		inset: 0;
+		z-index: 1000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--bg-app);
+		opacity: 0;
+		animation: pf-load-in 220ms ease 40ms forwards;
+	}
+	#pf-loading[data-exit] {
+		animation: pf-load-out 380ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+		pointer-events: none;
+	}
+	#pf-loading[data-exit] .loadCard {
+		animation: pf-load-sink 380ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+	}
+	.loadCard {
+		max-width: 300px;
+		padding: 24px;
+		text-align: center;
+		opacity: 0;
+		transform: translateY(8px);
+		animation: pf-load-rise 300ms ease 60ms forwards;
+	}
+	.loadBrand {
+		font-size: 20px;
+		font-weight: 650;
+		letter-spacing: 0.04em;
+		color: var(--text);
+	}
+	.loadTag {
+		margin-top: 2px;
+		font-size: 11px;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--text-faint);
+	}
+	.loadBar {
+		height: 4px;
+		margin-top: 18px;
+		border-radius: 2px;
+		background: var(--border);
+		overflow: hidden;
+	}
+	.loadFill {
+		height: 100%;
+		width: 0%;
+		border-radius: 2px;
+		background: var(--accent);
+		transition: width 180ms ease;
+	}
+	.loadStatus {
+		margin-top: 10px;
+		font-size: 11px;
+		color: var(--text-faint);
+	}
+	@keyframes pf-load-in {
+		to {
+			opacity: 1;
+		}
+	}
+	@keyframes pf-load-out {
+		to {
+			opacity: 0;
+		}
+	}
+	@keyframes pf-load-rise {
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	@keyframes pf-load-sink {
+		to {
+			opacity: 0;
+			transform: translateY(-10px) scale(0.985);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		#pf-loading,
+		#pf-loading .loadCard {
+			animation-duration: 1ms !important;
+			animation-delay: 0ms !important;
+		}
+		.loadFill {
+			transition: none;
+		}
+	}
+</style>

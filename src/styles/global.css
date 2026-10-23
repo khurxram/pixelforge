@@ -1,0 +1,516 @@
+﻿/* ==========================================================================
+   PixelForge global styles â€” warm editorial theme from DESIGN.md.
+   Cream chrome (#faf9f5 canvas, coral #cc785c accent) with a dark
+   (#181715) image stage so photos read correctly.
+   Tokens + base elements + shared control primitives (pf-*).
+   Component-specific styles live in CSS Modules.
+   ========================================================================== */
+
+:root {
+  /* Surfaces â€” cream chrome */
+  --bg-app: #faf9f5; /* canvas floor: top bar, status bar, page */
+  --bg-panel: #f5f0e8; /* surface-soft: tool rail, side panel */
+  --bg-panel-alt: #efe9de; /* surface-card: section bodies, dropdowns */
+  --bg-canvas: #e3dcd0; /* image stage: warm gray that reads as a work surface */
+  --bg-input: #faf9f5; /* text fields */
+  --bg-hover: #ebe6df; /* hairline-soft: hover fill */
+  --bg-active: #e8e0d2; /* surface-cream-strong: pressed/selected fill */
+
+  /* Borders â€” warm hairlines, never ink lines */
+  --border: #e6dfd8;
+  --border-strong: #d5cbb8;
+
+  /* Text â€” warm ink family */
+  --text: #141413; /* ink: primary */
+  --text-dim: #3d3d3a; /* body: labels, secondary */
+  --text-faint: #6c6a64; /* muted: hints, captions */
+
+  /* Accent â€” signature warm coral (never cool blue/purple) */
+  --accent: #cc785c;
+  --accent-hover: #a9583e;
+  --accent-quiet: rgba(204, 120, 92, 0.16);
+  --accent-line: rgba(204, 120, 92, 0.55);
+
+  /* On-dark tokens (image stage, dark cards) */
+  --on-dark: #faf9f5;
+  --on-dark-soft: #a09d96;
+
+  /* Semantics */
+  --danger: #c64545;
+  --warning: #d4a017;
+  --success: #5db872;
+
+  /* Effects â€” theme-aware (swapped by [data-theme='dark']) */
+  --scroll-thumb: #d5ccbc;
+  --scroll-thumb-hover: #c0b5a1;
+  --slider-track: #ded5c5;
+  --slider-thumb: #faf9f5;
+  --slider-ring: rgba(20, 20, 19, 0.35);
+  --shadow-pop: 0 16px 40px rgba(20, 20, 19, 0.22);
+  --warn-bg: rgba(212, 160, 23, 0.16);
+  --warn-border: rgba(212, 160, 23, 0.5);
+  --warn-text: #6b4f10;
+  --warn-strong: #3d2c05;
+
+  /* Metrics */
+  --row-h: 26px;
+  --toolbar-w: 46px;
+  --sidebar-w: 304px;
+  --radius: 6px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  --font-display: 'Cormorant Garamond', 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --font-mono: Consolas, 'SF Mono', 'Roboto Mono', Menlo, monospace;
+}
+
+/* --------------------------------------------------------------------------
+   Dark theme â€” DESIGN.md's dark product surfaces (#181715 / #1f1e1b / #252320).
+   The image stage keeps #181715 in both themes so the renderer's painted
+   background always matches the CSS stage.
+   -------------------------------------------------------------------------- */
+:root[data-theme='dark'] {
+  --bg-app: #181715; /* surface-dark: floor, top bar, status bar */
+  --bg-panel: #1f1e1b; /* surface-dark-soft: tool rail, side panel */
+  --bg-panel-alt: #252320; /* surface-dark-elevated: bodies, dropdowns */
+  --bg-canvas: #181715;  --bg-input: #141413;
+  --bg-hover: #2b2825;
+  --bg-active: #37332d;
+
+  --border: #34302a;
+  --border-strong: #4a453c;
+
+  --text: #faf9f5; /* on-dark */
+  --text-dim: #c6c1b6;
+  --text-faint: #8e8b82;
+
+  --accent: #cc785c;
+  --accent-hover: #d9916c; /* lightens on dark for hover/active-tool contrast */
+  --accent-quiet: rgba(204, 120, 92, 0.22);
+  --accent-line: rgba(204, 120, 92, 0.55);
+
+  --danger: #e08080;
+  --warning: #e3b04b;
+  --success: #6cc986;
+
+  --scroll-thumb: #45413a;
+  --scroll-thumb-hover: #5c574d;
+  --slider-track: #423d36;
+  --slider-thumb: #faf9f5;
+  --slider-ring: rgba(0, 0, 0, 0.5);
+  --shadow-pop: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --warn-bg: rgba(212, 160, 23, 0.14);
+  --warn-border: rgba(212, 160, 23, 0.45);
+  --warn-text: #e9c887;
+  --warn-strong: #faf9f5;
+}
+
+/* --------------------------------------------------------------------------
+   Marketing token set (landing + /features + /privacy + /tech).
+   Light values mirror DESIGN.md; dark mode inverts onto the dark surfaces.
+   -------------------------------------------------------------------------- */
+:root {
+  --l-canvas: #faf9f5;
+  --l-card: #efe9de;
+  --l-cream-strong: #e8e0d2;
+  --l-hairline: #e6dfd8;
+  --l-ink: #141413;
+  --l-body: #3d3d3a;
+  --l-muted: #6c6a64;
+  --l-muted-soft: #8e8b82;
+  --l-coral: #cc785c;
+  --l-coral-active: #a9583e;
+  --l-dark: #181715;
+  --l-dark-soft: #1f1e1b;
+  --l-dark-elevated: #252320;
+  --l-on-dark: #faf9f5;
+  --l-on-dark-soft: #a09d96;
+  --l-shadow-card: rgba(20, 20, 19, 0.1);
+  --l-shadow-nav: rgba(20, 20, 19, 0.07);
+  --l-edge: rgba(250, 249, 245, 0.09);
+  --l-serif: 'Cormorant Garamond', 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --l-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+
+  /* Mock-chrome tokens: the product illustrations mirror the real editor,
+     so they flip with the theme. Light mode = the editor's cream chrome;
+     dark mode = its dark stage. */
+  --mk-win: #faf9f5;        /* window frame / title bar */
+  --mk-rail: #f5f0e8;       /* tool rail + side panel */
+  --mk-stage: #e3dcd0;      /* image stage behind the photo */
+  --mk-ink: #141413;        /* chrome text */
+  --mk-ink-soft: #6c6a64;   /* secondary chrome text */
+  --mk-edge: #e6dfd8;       /* hairlines between chrome regions */
+  --mk-tile: rgba(20, 20, 19, 0.08);      /* tool button / layer row fill */
+  --mk-tile-edge: rgba(20, 20, 19, 0.1);  /* tool button / layer row edge */
+  --mk-on-tile: #3d3d3a;    /* text sitting on a tile */
+  --mk-shadow: rgba(20, 20, 19, 0.16);    /* card drop shadow */
+}
+
+:root[data-theme='dark'] {
+  --l-canvas: #181715;
+  --l-card: #252320;
+  --l-cream-strong: #37332d;
+  --l-hairline: #34302a;
+  --l-ink: #faf9f5;
+  --l-body: #c6c1b6;
+  --l-muted: #a09d96;
+  --l-muted-soft: #8e8b82;
+  --l-dark: #1f1e1b;
+  --l-dark-soft: #191817;
+  --l-dark-elevated: #252320;
+  --l-shadow-card: rgba(0, 0, 0, 0.45);
+  --l-shadow-nav: rgba(0, 0, 0, 0.4);
+
+  /* Mock chrome flips to the editor's dark stage in dark mode. */
+  --mk-win: #1f1e1b;
+  --mk-rail: #191817;
+  --mk-stage: #181715;
+  --mk-ink: #faf9f5;
+  --mk-ink-soft: #a09d96;
+  --mk-edge: rgba(250, 249, 245, 0.09);
+  --mk-tile: rgba(250, 249, 245, 0.08);
+  --mk-tile-edge: rgba(250, 249, 245, 0.1);
+  --mk-on-tile: #c6c1b6;
+  --mk-shadow: rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#pf-root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-app);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  overscroll-behavior: none;
+}
+
+/* Marketing pages (landing) opt back into text selection. */
+body[data-page='landing'] {
+  user-select: auto;
+  overflow: auto;
+  font-size: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbars â€” slim, warm, unobtrusive
+   -------------------------------------------------------------------------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border: 2px solid transparent;
+  background-clip: content-box;
+  border-radius: 6px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
+  background-clip: content-box;
+}
+
+/* --------------------------------------------------------------------------
+   Focus visibility (keyboard accessibility)
+   -------------------------------------------------------------------------- */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 1.5px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Shared controls
+   -------------------------------------------------------------------------- */
+.pf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: var(--row-h);
+  padding: 0 10px;
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 90ms linear, border-color 90ms linear, transform 100ms ease;
+}
+.pf-btn:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+.pf-btn:active:not(:disabled) {
+  background: var(--bg-active);
+  transform: scale(0.97);
+}
+.pf-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.pf-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+.pf-btn.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+.pf-btn.ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.pf-btn.ghost:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--border);
+}
+.pf-btn.danger {
+  color: var(--danger);
+}
+
+.pf-input,
+.pf-select {
+  height: var(--row-h);
+  padding: 0 7px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+}
+.pf-input:hover,
+.pf-select:hover {
+  border-color: var(--border-strong);
+}
+.pf-input:focus-visible,
+.pf-select:focus-visible {
+  border-color: var(--accent);
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+.pf-input[type='number'] {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.pf-input[type='number']::-webkit-outer-spin-button,
+.pf-input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Range sliders */
+input[type='range'].pf-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+input[type='range'].pf-range::-webkit-slider-runnable-track {
+  height: 3px;
+  background: var(--slider-track);
+  border-radius: 2px;
+}
+input[type='range'].pf-range::-moz-range-track {
+  height: 3px;
+  background: var(--slider-track);
+  border-radius: 2px;
+}
+input[type='range'].pf-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: var(--slider-thumb, #faf9f5);
+  border: none;
+  box-shadow: 0 0 0 1px var(--slider-ring);
+  transition: transform 100ms ease, box-shadow 120ms ease;
+}
+input[type='range'].pf-range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--slider-thumb, #faf9f5);
+  border: none;
+  box-shadow: 0 0 0 1px var(--slider-ring);
+  transition: transform 100ms ease, box-shadow 120ms ease;
+}
+/* Grabbing a slider handle pops it slightly larger while dragged. */
+input[type='range'].pf-range:active::-webkit-slider-thumb {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+input[type='range'].pf-range:active::-moz-range-thumb {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+input[type='range'].pf-range:hover::-webkit-slider-thumb {
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+input[type='range'].pf-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 1.5px var(--accent-hover);
+}
+
+/* Small labels */
+.pf-label {
+  color: var(--text-faint);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+.pf-kbd {
+  display: inline-block;
+  min-width: 18px;
+  padding: 1px 5px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Motion â€” entrance keyframes + page/theme transitions.
+   All motion is disabled under prefers-reduced-motion (see footer rules).
+   ========================================================================== */
+@keyframes pf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+@keyframes pf-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes pf-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+}
+@keyframes pf-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+@keyframes pf-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes pf-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+}
+@keyframes pf-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+}
+
+/* Cross-document page transitions live in src/styles/view-transitions.css and
+   are inlined into <head> by Layout.astro rather than bundled here. They must
+   not ride along in a render-blocking stylesheet: Chrome looks for
+   `@view-transition` on the new document at navigation commit, and if the CSS
+   fetch is still in flight the rule isn't there yet — so the transition is
+   skipped entirely and the page just appears. */
+
+/* Theme switch: a circular reveal expanding from the toggle button
+   (--pf-tx / --pf-ty are set from the clicked button's center). */
+html[data-vt='theme']::view-transition-old(root) {
+  animation: pf-vt-fade-out 0.4s ease both;
+}
+html[data-vt='theme']::view-transition-new(root) {
+  animation: pf-vt-circle-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes pf-vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes pf-vt-circle-in {
+  from {
+    clip-path: circle(0% at var(--pf-tx, 92%) var(--pf-ty, 2%));
+  }
+  to {
+    clip-path: circle(150% at var(--pf-tx, 92%) var(--pf-ty, 2%));
+  }
+}
+
+
+/* Fallback for browsers without document.startViewTransition: briefly enable
+   color transitions everywhere so the theme still morphs instead of flashing. */
+html.theme-animating,
+html.theme-animating *,
+html.theme-animating *::before,
+html.theme-animating *::after {
+  transition: background-color 0.45s ease, border-color 0.45s ease, color 0.45s ease,
+    box-shadow 0.45s ease, fill 0.45s ease !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Respect the OS "reduce motion" setting: collapse every animation to its end
+   state, stop spinners, and skip page transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html::view-transition-old(root),
+  html::view-transition-new(root) {
+    animation-duration: 0.01ms !important;
+  }
+}

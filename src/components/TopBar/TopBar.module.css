@@ -1,0 +1,164 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-app);
+  border-bottom: 1px solid var(--border);
+  z-index: 30;
+}
+
+.row1 {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 8px;
+  gap: 8px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 8px;
+  border-right: 1px solid var(--border);
+  height: 20px;
+  text-decoration: none;
+}
+
+.brandName {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.privacy {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-faint);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: default;
+}
+
+/* Theme switch — a sliding knob between sun and moon. */
+.themeBtn {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  padding: 0;
+  background: var(--bg-active);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.themeBtn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+.themeIcon {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  color: var(--text-faint);
+  opacity: 0.7;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+.themeIcon[data-icon='sun'] {
+  left: 5px;
+}
+.themeIcon[data-icon='moon'] {
+  right: 5px;
+}
+.themeKnob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+:global(html[data-theme='dark']) .themeKnob {
+  transform: translateX(20px);
+}
+:global(html[data-theme='dark']) .themeIcon[data-icon='sun'] {
+  opacity: 1;
+  color: var(--accent);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+}
+
+.row2 {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+  padding: 0 8px;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+}
+
+.divider {
+  width: 1px;
+  height: 18px;
+  margin: 0 4px;
+  background: var(--border);
+}
+
+.zoomGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.zoomField {
+  width: 58px;
+  text-align: center;
+  padding: 0 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Narrow screens: both rows become swipeable strips.                 */
+/*                                                                     */
+/* The editor chrome is pinned to the viewport (body has overflow:      */
+/* hidden), so anything that runs past the right edge is simply gone    */
+/* with no way to scroll to it — on a phone that meant the zoom field,  */
+/* fit-to-screen and half the menus were unreachable. Letting the rows  */
+/* scroll keeps every control reachable without redesigning the bar.    */
+/* ------------------------------------------------------------------ */
+@media (max-width: 900px) {
+  .row1,
+  .row2 {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  .row1::-webkit-scrollbar,
+  .row2::-webkit-scrollbar {
+    height: 0;
+  }
+  /* Children must refuse to squash, or they compress instead of scrolling
+     the row. The spacer keeps pinning the right edge until content really
+     overflows, at which point it collapses to zero. */
+  .row1 > *:not(.spacer),
+  .row2 > * {
+    flex: none;
+  }
+  .privacy {
+    display: none;
+  }
+}

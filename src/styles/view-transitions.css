@@ -1,0 +1,109 @@
+/* ===========================================================================
+   Cross-document view transitions.
+
+   This stylesheet is *inlined into <head>* by Layout.astro, ahead of every
+   render-blocking stylesheet. That placement is load-bearing:
+
+   Chrome decides whether to run a cross-document transition by looking for
+   `@view-transition { navigation: auto }` on the new document *at navigation
+   commit* — before any `<link rel="stylesheet">` has necessarily arrived.
+   If that fetch is still in flight, the rule isn't there yet and Chrome skips
+   the whole transition: the new page just appears, with no slide and no motion
+   blur. Inlining costs ~1.5 kB and makes the effect independent of network
+   timing, which is why the editor used to animate on `astro dev` (styles are
+   injected by JS there, so nothing is render-blocking) but not in production.
+
+   - Opening the editor (/ -> /editor): the landing page drops down while the
+     editor slides in from the top (data-vt-dir="open", set in Layout.astro).
+   - Closing the editor (brand -> /): the editor lifts up while the landing
+     page rises in from the bottom (data-vt-dir="close").
+   - Theme switches are same-document and keep their own rules in global.css.
+   =========================================================================== */
+
+@view-transition {
+  navigation: auto;
+}
+
+html::view-transition-old(root) {
+  animation: pf-vt-out 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+html::view-transition-new(root) {
+  animation: pf-vt-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+html[data-vt-dir='open']::view-transition-old(root) {
+  animation: pf-vt-drop 0.54s cubic-bezier(0.5, 0, 0.15, 1) both;
+}
+html[data-vt-dir='open']::view-transition-new(root) {
+  animation: pf-vt-enter-top 0.54s cubic-bezier(0.5, 0, 0.15, 1) both;
+}
+html[data-vt-dir='close']::view-transition-old(root) {
+  animation: pf-vt-lift 0.54s cubic-bezier(0.5, 0, 0.15, 1) both;
+}
+html[data-vt-dir='close']::view-transition-new(root) {
+  animation: pf-vt-enter-bottom 0.54s cubic-bezier(0.5, 0, 0.15, 1) both;
+}
+
+@keyframes pf-vt-out {
+  to {
+    opacity: 0;
+    transform: scale(0.985);
+    filter: blur(6px);
+  }
+}
+@keyframes pf-vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(8px);
+  }
+}
+/* Directional transitions carry a motion-blur ramp: pages smear as they
+   accelerate and sharpen as they settle (dropped under reduced motion).
+   The blur is deliberately shallow — a full-viewport filter is the most
+   expensive thing on this page, and past ~10 px it reads as a stutter rather
+   than speed while costing frames at the start of the ramp. */
+@keyframes pf-vt-drop {
+  to {
+    transform: translateY(100%);
+    filter: blur(8px);
+  }
+}
+@keyframes pf-vt-enter-top {
+  from {
+    transform: translateY(-100%);
+    filter: blur(10px);
+    opacity: 0.7;
+  }
+  60% {
+    filter: blur(3px);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(0);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+@keyframes pf-vt-lift {
+  to {
+    transform: translateY(-100%);
+    filter: blur(8px);
+  }
+}
+@keyframes pf-vt-enter-bottom {
+  from {
+    transform: translateY(100%);
+    filter: blur(10px);
+    opacity: 0.7;
+  }
+  60% {
+    filter: blur(3px);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(0);
+    filter: blur(0);
+    opacity: 1;
+  }
+}

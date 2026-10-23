@@ -1,11 +1,1020 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/marketing/SiteHeader.astro';
+import SiteFooter from '../components/marketing/SiteFooter.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const features = [
+	{
+		title: 'Every adjustment, live',
+		body: 'Brightness, contrast, saturation, hue, temperature, tint, sharpness, blur — plus Curves, Threshold, Posterize, Gradient Map and Photo Filter — previewed instantly, then applied at full resolution in a Web Worker.',
+	},
+	{
+		title: 'Layers, history, projects',
+		body: 'Reorder, duplicate, rename and blend layers across 16 blend modes, step back through 25 undo states, and save real .pixelforge project files to disk or browser storage.',
+	},
+	{
+		title: 'Exports that do not shrink',
+		body: 'PNG, JPEG and WebP export always recomposites the full-resolution document — what you see at 100 % is exactly what downloads.',
+	},
+];
+
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="PixelForge — Local-first photo editing in your browser" shell="landing">
+	<SiteHeader />
+
+	<main>
+		<section class="hero">
+			<div class="heroInner">
+				<div class="heroCopy">
+					<span class="badge">Local · private · free</span>
+					<h1>Photo editing that never leaves your device.</h1>
+					<p class="lede">
+						PixelForge is a full photo editor that runs entirely in your browser. Drop in a
+						photo, adjust it, layer it, crop it, export it — no uploads, no accounts,
+						no external APIs. Close the tab and nothing was ever sent anywhere.
+					</p>
+					<div class="heroActions">
+						<a class="btnPrimary lg" href="/editor" data-astro-prefetch>Open the editor</a>
+						<a class="btnSecondary lg" href="/features">See what it does</a>
+					</div>
+					<p class="heroHint">Works offline · PNG · JPEG · WebP · .pixelforge projects</p>
+				</div>
+
+				<!-- Dark product mockup card: a stylized preview of the editor chrome. -->
+				<div class="mockup" aria-hidden="true">
+					<div class="mockBar">
+						<span class="mockDot"></span>
+						<span class="mockMenu">File</span>
+						<span class="mockMenu">Edit</span>
+						<span class="mockMenu">Image</span>
+						<span class="mockMenu">Layer</span>
+						<span class="mockSpacer"></span>
+						<span class="mockPill">Local · private</span>
+					</div>
+					<div class="mockBody">
+						<div class="mockRail">
+							<i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i>
+						</div>
+						<div class="mockStage">
+							<div class="mockPhoto">
+								<div class="mockSun"></div>
+								<div class="mockHill"></div>
+							</div>
+						</div>
+						<div class="mockPanel">
+							<span class="mockSection">Adjustments</span>
+							<div class="mockSlider"><b style="width: 72%"></b></div>
+							<div class="mockSlider"><b style="width: 45%"></b></div>
+							<div class="mockSlider"><b style="width: 60%"></b></div>
+							<span class="mockSection">Layers</span>
+							<div class="mockLayer on"></div>
+							<div class="mockLayer"></div>
+							<div class="mockLayer"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!--
+			Feature showcase: each row pairs a real capability with a small
+			theme-aware illustration (pure CSS/SVG, no external images) that
+			mirrors the editor's own chrome — light surfaces in light mode,
+			dark in dark, driven by the shared --mk-* tokens.
+		-->
+		<section class="showcase" id="showcase">
+			<div class="band">
+				<h2 data-reveal>Everything a serious editor needs.</h2>
+
+				<!-- Colour grading -->
+				<article class="row" data-reveal>
+					<div class="rowArt" aria-hidden="true">
+						<div class="mk-card artGrade">
+							<div class="artHead">
+								<span class="artDot"></span>
+								<span class="artTitle">Colour grading</span>
+							</div>
+							<div class="artBody">
+								<div class="wheel">
+									<i class="wheelRing"></i>
+									<i class="wheelDot" style="--a: 34deg"></i>
+								</div>
+								<div class="wheel">
+									<i class="wheelRing"></i>
+									<i class="wheelDot" style="--a: -58deg"></i>
+								</div>
+								<div class="wheel">
+									<i class="wheelRing"></i>
+									<i class="wheelDot" style="--a: 128deg"></i>
+								</div>
+								<div class="artSliders">
+									<div class="artSlider"><b style="width: 72%"></b></div>
+									<div class="artSlider"><b style="width: 45%"></b></div>
+									<div class="artSlider"><b style="width: 60%"></b></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="rowCopy">
+						<h3>Colour grading that never guesses</h3>
+						<p>
+							Lift / Gamma / Gain wheels, primaries sliders, a live histogram and a
+							per-channel curve editor — all previewed in real time. Auto Tone,
+							Auto Contrast and Auto Color fix a flat shot in one click, and the
+							“Looks” gallery gives you film-inspired starting points.
+						</p>
+					</div>
+				</article>
+
+				<!-- Layers -->
+				<article class="row alt" data-reveal>
+					<div class="rowArt" aria-hidden="true">
+						<div class="mk-card artLayers">
+							<div class="artHead">
+								<span class="artDot"></span>
+								<span class="artTitle">Layers</span>
+							</div>
+							<div class="artBody col">
+								<div class="lyr on"><i class="lyrThumb sunset"></i><span>Sunset</span><em>100%</em></div>
+								<div class="lyr"><i class="lyrThumb hill"></i><span>Hill mask</span><em>64%</em></div>
+								<div class="lyr"><i class="lyrThumb grain"></i><span>Grain · Overlay</span><em>30%</em></div>
+								<div class="lyrCtl">
+									<span class="ctlLbl">Opacity</span>
+									<div class="artSlider wide"><b style="width: 64%"></b></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="rowCopy">
+						<h3>Layers that behave like layers</h3>
+						<p>
+							Stack, reorder, rename, duplicate and delete layers; set per-layer
+							opacity and 16 blend modes; add text and shapes as their own layers.
+							Merge down when you’re done, or jump back through 25 undo states —
+							every operation is a real, reversible step.
+						</p>
+					</div>
+				</article>
+
+				<!-- Selections & tools -->
+				<article class="row" data-reveal>
+					<div class="rowArt" aria-hidden="true">
+						<div class="mk-card artTools">
+							<div class="artHead">
+								<span class="artDot"></span>
+								<span class="artTitle">Selections &amp; tools</span>
+							</div>
+							<div class="artBody">
+								<div class="toolRail">
+									<i class="on"></i><i></i><i></i><i></i><i></i><i></i>
+								</div>
+								<div class="toolStage">
+									<div class="antsBox">
+										<i></i><i></i><i></i><i></i>
+									</div>
+									<div class="brushRing"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="rowCopy">
+						<h3>Real selections, real tools</h3>
+						<p>
+							Marquee, lasso, polygonal lasso and a magic wand with a perceptual
+							color metric that actually picks the object you clicked. Feather,
+							grow, shrink and smooth the mask, then paint with brush, eraser,
+							clone, healing, dodge and burn — all selection-aware, all undoable.
+						</p>
+					</div>
+				</article>
+
+				<!-- Transform & export -->
+				<article class="row alt" data-reveal>
+					<div class="rowArt" aria-hidden="true">
+						<div class="mk-card artXform">
+							<div class="artHead">
+								<span class="artDot"></span>
+								<span class="artTitle">Free Transform</span>
+							</div>
+							<div class="artBody center">
+								<div class="xfBox">
+									<i class="xfPhoto"></i>
+									<i class="h tl"></i><i class="h tr"></i>
+									<i class="h bl"></i><i class="h br"></i>
+									<i class="h tm"></i><i class="h bm"></i>
+									<i class="h lm"></i><i class="h rm"></i>
+								</div>
+								<div class="xfHint">
+									<kbd>Ctrl</kbd><kbd>T</kbd>
+									<span>Enter commits · Esc cancels</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="rowCopy">
+						<h3>Transform and export at full fidelity</h3>
+						<p>
+							Ctrl+T drops you into a live transform — drag to move, pull a handle
+							to scale, rotate with Shift to snap. Committing resamples through a
+							halo-free bilinear pass, so rotations stay sharp. Export PNG, JPEG
+							or WebP at the document’s full resolution, or save a .pixelforge
+							project for later.
+						</p>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="features" id="features">
+			<div class="band">
+				<h2 data-reveal>A serious editor, in a tab.</h2>
+				<div class="cards">
+					{
+						features.map((f, i) => (
+							<article class="card" data-reveal style={`--d: ${i}`}>
+								<h3>{f.title}</h3>
+								<p>{f.body}</p>
+							</article>
+						))
+					}
+				</div>
+			</div>
+		</section>
+
+		<section class="privacy" id="privacy">
+			<div class="band">
+				<div class="coral" data-reveal>
+					<h2>Your photos are nobody else’s business.</h2>
+					<p>
+						PixelForge has no backend. Every pixel you open is decoded, processed and
+						encoded on your own machine with Canvas 2D, Web Workers and WebAssembly-grade
+						JavaScript. Projects autosave to your browser’s IndexedDB — and nowhere else.
+					</p>
+					<a class="btnOnCoral" href="/editor" data-astro-prefetch>Open the editor</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="stack" id="stack">
+			<div class="band">
+				<div class="stackCard" data-reveal>
+					<h2>Built on the open web.</h2>
+					<p>
+						React · TypeScript (strict) · Vite · Canvas 2D · Web Workers · IndexedDB · CSS
+						Modules · Vitest · Playwright. One hundred percent client-side — inspect the
+						network tab: nothing goes out.
+					</p>
+					<a class="textLink" href="/tech">Read the tech notes →</a>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<SiteFooter />
+
+	<!--
+		Editor bundle warming: the moment the user shows intent (hover, focus,
+		or press of any "Open the editor" link), fetch the /editor HTML, discover
+		its JS/CSS assets and pull them into the HTTP cache. Navigation then
+		hydrates almost instantly — no loading screen needed. A delayed idle
+		pass also covers fast clicks and touch devices (no hover).
+	-->
+	<script is:inline>
+		(function () {
+			var warmed = false;
+			function warm() {
+				if (warmed) return;
+				warmed = true;
+				fetch('/editor/', { credentials: 'same-origin' })
+					.then(function (r) {
+						return r.text();
+					})
+					.then(function (html) {
+						var urls = [];
+						var re = /(?:src|href)="([^"]+\.(?:js|css|woff2?))"/g;
+						var m;
+						while ((m = re.exec(html)) !== null) urls.push(m[1]);
+						urls.forEach(function (u) {
+							fetch(u, { credentials: 'same-origin' }).catch(function () {});
+						});
+					})
+					.catch(function () {});
+			}
+			document.querySelectorAll('a[href="/editor"]').forEach(function (a) {
+				a.addEventListener('pointerenter', warm, { once: true });
+				a.addEventListener('focus', warm, { once: true });
+				a.addEventListener('pointerdown', warm, { once: true });
+			});
+			var idle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 3000); };
+			idle(warm, { timeout: 5000 });
+		})();
+	</script>
 </Layout>
+
+<style>
+	/* ------------------------------------------------------------------ */
+	/* Hero                                                                */
+	/* ------------------------------------------------------------------ */
+	.hero {
+		background: var(--l-canvas);
+		padding: 96px 32px;
+	}
+	.heroInner {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 6fr 6fr;
+		gap: 64px;
+		align-items: center;
+	}
+	.badge {
+		display: inline-block;
+		padding: 4px 12px;
+		background: var(--l-card);
+		border-radius: 9999px;
+		color: var(--l-ink);
+		font-size: 13px;
+		font-weight: 500;
+		animation: pf-rise 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) 0.05s both;
+	}
+	.heroCopy h1 {
+		margin: 20px 0 0;
+		font-family: var(--l-serif);
+		font-size: 64px;
+		font-weight: 400;
+		line-height: 1.05;
+		letter-spacing: -1.5px;
+		color: var(--l-ink);
+		animation: pf-rise 0.65s cubic-bezier(0.2, 0.7, 0.3, 1) 0.12s both;
+	}
+	.lede {
+		margin: 24px 0 0;
+		font-size: 17px;
+		line-height: 1.6;
+		color: var(--l-body);
+		max-width: 34em;
+		animation: pf-rise 0.65s cubic-bezier(0.2, 0.7, 0.3, 1) 0.2s both;
+	}
+	.heroActions {
+		display: flex;
+		gap: 16px;
+		margin-top: 32px;
+		flex-wrap: wrap;
+		animation: pf-rise 0.65s cubic-bezier(0.2, 0.7, 0.3, 1) 0.28s both;
+	}
+	.heroHint {
+		margin: 20px 0 0;
+		font-size: 13px;
+		color: var(--l-muted-soft);
+		animation: pf-rise 0.6s ease 0.36s both;
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Dark product mockup card                                            */
+	/* ------------------------------------------------------------------ */
+	@keyframes pf-float {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-7px);
+		}
+	}
+	.mockup {
+		background: var(--mk-win);
+		border: 1px solid var(--mk-edge);
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 22px 50px var(--mk-shadow);
+		/* The float loop runs forever: keep the card on its own layer so the
+		   50 px drop shadow is rasterized once instead of repainted per frame. */
+		will-change: transform;
+		backface-visibility: hidden;
+		animation: pf-rise 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) 0.2s both,
+			pf-float 7s ease-in-out 1.6s infinite;
+	}
+	.mockBar {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		height: 36px;
+		padding: 0 14px;
+		background: var(--mk-rail);
+		border-bottom: 1px solid var(--mk-edge);
+	}
+	.mockDot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--l-coral);
+	}
+	.mockMenu {
+		font-size: 11px;
+		color: var(--mk-ink-soft);
+	}
+	.mockSpacer {
+		flex: 1;
+	}
+	.mockPill {
+		font-size: 10px;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--mk-ink-soft);
+		border: 1px solid var(--mk-tile-edge);
+		border-radius: 9999px;
+		padding: 2px 8px;
+	}
+	.mockBody {
+		display: flex;
+		height: 320px;
+	}
+	.mockRail {
+		width: 44px;
+		padding: 10px 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		background: var(--mk-rail);
+		border-right: 1px solid var(--mk-edge);
+	}
+	.mockRail i {
+		width: 22px;
+		height: 20px;
+		border-radius: 4px;
+		background: var(--mk-tile);
+	}
+	.mockRail i.on {
+		background: rgba(204, 120, 92, 0.35);
+		box-shadow: inset 0 0 0 1px rgba(204, 120, 92, 0.6);
+	}
+	.mockStage {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--mk-stage);
+	}
+	.mockPhoto {
+		position: relative;
+		width: 70%;
+		aspect-ratio: 3 / 2;
+		border-radius: 2px;
+		overflow: hidden;
+		background: linear-gradient(#f0b27a 0%, #e88a5c 45%, #cc785c 70%, #7a4a3a 100%);
+		box-shadow: 0 8px 24px var(--mk-shadow);
+	}
+	.mockSun {
+		position: absolute;
+		top: 14%;
+		right: 18%;
+		width: 14%;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		background: #ffe9c9;
+	}
+	.mockHill {
+		position: absolute;
+		bottom: -18%;
+		left: -10%;
+		width: 90%;
+		aspect-ratio: 2 / 1;
+		border-radius: 50%;
+		background: #4a3129;
+	}
+	.mockPanel {
+		width: 132px;
+		padding: 12px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		background: var(--mk-rail);
+		border-left: 1px solid var(--mk-edge);
+	}
+	.mockSection {
+		font-size: 9.5px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--mk-ink-soft);
+		margin-top: 4px;
+	}
+	.mockSlider {
+		height: 3px;
+		border-radius: 2px;
+		background: var(--mk-tile-edge);
+	}
+	.mockSlider b {
+		display: block;
+		height: 100%;
+		border-radius: 2px;
+		background: var(--l-coral);
+	}
+	.mockLayer {
+		height: 20px;
+		border-radius: 4px;
+		background: var(--mk-tile);
+		border: 1px solid var(--mk-tile-edge);
+	}
+	.mockLayer.on {
+		background: rgba(204, 120, 92, 0.22);
+		border-color: rgba(204, 120, 92, 0.5);
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Feature cards                                                       */
+	/* ------------------------------------------------------------------ */
+	.features {
+		background: var(--l-canvas);
+		padding: 0 32px 96px;
+	}
+	.band {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+	.band > h2,
+	.stackCard h2,
+	.coral h2 {
+		margin: 0 0 32px;
+		font-family: var(--l-serif);
+		font-size: 48px;
+		font-weight: 400;
+		line-height: 1.1;
+		letter-spacing: -1px;
+		color: var(--l-ink);
+	}
+	.cards {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+	}
+	.card {
+		background: var(--l-card);
+		border-radius: 12px;
+		padding: 32px;
+		box-shadow: 0 1px 3px var(--l-shadow-card);
+		transition: opacity 0.65s ease var(--rd, 0ms),
+			translate 0.65s cubic-bezier(0.2, 0.7, 0.3, 1) var(--rd, 0ms),
+			transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 0.3s ease;
+	}
+	.card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 18px 36px var(--l-shadow-card);
+	}
+	.card h3 {
+		margin: 0 0 12px;
+		font-family: var(--l-sans);
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 1.4;
+		color: var(--l-ink);
+	}
+	.card p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.6;
+		color: var(--l-body);
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Coral privacy callout                                               */
+	/* ------------------------------------------------------------------ */
+	.privacy {
+		background: var(--l-canvas);
+		padding: 0 32px 96px;
+	}
+	.coral {
+		background: var(--l-coral);
+		border-radius: 12px;
+		padding: 64px;
+		color: #ffffff;
+	}
+	.coral h2 {
+		color: #ffffff;
+		max-width: 18em;
+		margin-bottom: 20px;
+	}
+	.coral p {
+		margin: 0 0 32px;
+		font-size: 17px;
+		line-height: 1.6;
+		color: rgba(255, 255, 255, 0.92);
+		max-width: 46em;
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Dark tech card                                                      */
+	/* ------------------------------------------------------------------ */
+	.stack {
+		background: var(--l-canvas);
+		padding: 0 32px 96px;
+	}
+	.stackCard {
+		background: var(--l-card);
+		border: 1px solid var(--l-hairline);
+		border-radius: 12px;
+		padding: 64px;
+	}
+	.stackCard h2 {
+		color: var(--l-ink);
+	}
+	.stackCard p {
+		margin: 0 0 28px;
+		font-size: 17px;
+		line-height: 1.6;
+		color: var(--l-body);
+		max-width: 52em;
+	}
+	.textLink {
+		display: inline-flex;
+		font-size: 16px;
+		font-weight: 500;
+		color: var(--l-coral);
+		transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1), color 0.2s ease;
+	}
+	.textLink:hover {
+		transform: translateX(5px);
+		color: var(--l-coral-active);
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Feature showcase rows (illustration + copy)                         */
+	/* ------------------------------------------------------------------ */
+	.showcase {
+		background: var(--l-canvas);
+		padding: 0 32px 96px;
+	}
+	.row {
+		display: grid;
+		grid-template-columns: 6fr 6fr;
+		gap: 64px;
+		align-items: center;
+		padding: 40px 0;
+	}
+	.row.alt .rowArt {
+		order: 2;
+	}
+	.rowCopy h3 {
+		margin: 0 0 14px;
+		font-family: var(--l-serif);
+		font-size: 34px;
+		font-weight: 400;
+		line-height: 1.15;
+		letter-spacing: -0.5px;
+		color: var(--l-ink);
+	}
+	.rowCopy p {
+		margin: 0;
+		font-size: 16px;
+		line-height: 1.65;
+		color: var(--l-body);
+		max-width: 34em;
+	}
+
+	/* Shared illustration chrome — mirrors the editor via --mk-* tokens. */
+	.mk-card {
+		background: var(--mk-win);
+		border: 1px solid var(--mk-edge);
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 18px 40px var(--mk-shadow);
+		transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 0.3s ease;
+	}
+	.row:hover .mk-card {
+		transform: translateY(-4px);
+		box-shadow: 0 24px 52px var(--mk-shadow);
+	}
+	.artHead {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		height: 34px;
+		padding: 0 14px;
+		background: var(--mk-rail);
+		border-bottom: 1px solid var(--mk-edge);
+	}
+	.artDot {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--l-coral);
+	}
+	.artTitle {
+		font-size: 10px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--mk-ink-soft);
+	}
+	.artBody {
+		display: flex;
+		align-items: center;
+		gap: 18px;
+		height: 236px;
+		padding: 24px;
+		background: var(--mk-stage);
+	}
+	.artBody.col {
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: center;
+		gap: 10px;
+	}
+	.artBody.center {
+		flex-direction: column;
+		justify-content: center;
+		gap: 20px;
+	}
+
+	/* Colour-grading wheels. */
+	.wheel {
+		position: relative;
+		width: 74px;
+		height: 74px;
+		border-radius: 50%;
+		background: conic-gradient(
+			from 90deg,
+			#e2695e,
+			#d9a03f,
+			#78c26a,
+			#4fa3c2,
+			#5f8fe2,
+			#a06ad4,
+			#e2695e
+		);
+		box-shadow: inset 0 0 0 1px var(--mk-tile-edge);
+	}
+	.wheelRing {
+		position: absolute;
+		inset: 26%;
+		border-radius: 50%;
+		background: var(--mk-win);
+		box-shadow: inset 0 0 0 1px var(--mk-tile-edge);
+	}
+	.wheelDot {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 8px;
+		height: 8px;
+		margin: -4px;
+		border-radius: 50%;
+		background: var(--mk-win);
+		box-shadow: 0 0 0 1.5px var(--mk-ink);
+		transform: rotate(var(--a)) translateX(23px);
+	}
+	.artSliders {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		flex: 1;
+		min-width: 0;
+	}
+	.artSlider {
+		height: 4px;
+		border-radius: 2px;
+		background: var(--mk-tile-edge);
+	}
+	.artSlider.wide {
+		flex: 1;
+	}
+	.artSlider b {
+		display: block;
+		height: 100%;
+		border-radius: 2px;
+		background: var(--l-coral);
+	}
+
+	/* Layers stack. */
+	.lyr {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		height: 40px;
+		padding: 0 12px;
+		border-radius: 6px;
+		background: var(--mk-win);
+		border: 1px solid var(--mk-edge);
+		font-size: 12px;
+		color: var(--mk-ink);
+	}
+	.lyr.on {
+		border-color: rgba(204, 120, 92, 0.5);
+		box-shadow: 0 0 0 1px rgba(204, 120, 92, 0.25);
+	}
+	.lyr span {
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.lyr em {
+		font-style: normal;
+		font-size: 11px;
+		color: var(--mk-ink-soft);
+	}
+	.lyrThumb {
+		width: 26px;
+		height: 22px;
+		border-radius: 3px;
+		flex-shrink: 0;
+		box-shadow: inset 0 0 0 1px var(--mk-tile-edge);
+	}
+	.lyrThumb.sunset {
+		background: linear-gradient(#f0b27a, #cc785c 70%, #7a4a3a);
+	}
+	.lyrThumb.hill {
+		background: linear-gradient(135deg, #4a3129 50%, #6b4636 50%);
+	}
+	.lyrThumb.grain {
+		background: repeating-conic-gradient(#8e8b82 0% 25%, #6c6a64 0% 50%) 0 0 / 6px 6px;
+	}
+	.lyrCtl {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-top: 6px;
+	}
+	.ctlLbl {
+		font-size: 10px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--mk-ink-soft);
+	}
+
+	/* Selection tool rail + marching-ants box. */
+	.toolRail {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 12px 10px;
+		border-radius: 8px;
+		background: var(--mk-rail);
+		border: 1px solid var(--mk-edge);
+	}
+	.toolRail i {
+		width: 22px;
+		height: 20px;
+		border-radius: 4px;
+		background: var(--mk-tile);
+	}
+	.toolRail i.on {
+		background: rgba(204, 120, 92, 0.35);
+		box-shadow: inset 0 0 0 1px rgba(204, 120, 92, 0.6);
+	}
+	.toolStage {
+		position: relative;
+		flex: 1;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.antsBox {
+		position: relative;
+		width: 74%;
+		aspect-ratio: 3 / 2;
+	}
+	.antsBox i {
+		position: absolute;
+		width: 9px;
+		height: 9px;
+		margin: -4px;
+		background: var(--mk-win);
+		box-shadow: 0 0 0 1.5px var(--mk-ink);
+	}
+	.antsBox i:nth-child(1) {
+		top: 0;
+		left: 0;
+	}
+	.antsBox i:nth-child(2) {
+		top: 0;
+		left: 100%;
+	}
+	.antsBox i:nth-child(3) {
+		top: 100%;
+		left: 100%;
+	}
+	.antsBox i:nth-child(4) {
+		top: 100%;
+		left: 0;
+	}
+	.antsBox::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border: 1.5px dashed var(--mk-ink);
+		border-radius: 1px;
+		opacity: 0.85;
+	}
+	.brushRing {
+		position: absolute;
+		bottom: 18%;
+		right: 16%;
+		width: 34px;
+		height: 34px;
+		border-radius: 50%;
+		border: 1.5px solid var(--mk-ink);
+		box-shadow: 0 0 0 3px var(--mk-win);
+		opacity: 0.8;
+	}
+
+	/* Free-transform box with handles. */
+	.xfBox {
+		position: relative;
+		width: 78%;
+		aspect-ratio: 3 / 2;
+	}
+	.xfPhoto {
+		position: absolute;
+		inset: 0;
+		border-radius: 2px;
+		background: linear-gradient(#f0b27a 0%, #e88a5c 45%, #cc785c 70%, #7a4a3a 100%);
+		box-shadow: 0 6px 18px var(--mk-shadow);
+	}
+	.xfBox .h {
+		position: absolute;
+		width: 8px;
+		height: 8px;
+		margin: -4px;
+		background: var(--mk-win);
+		box-shadow: 0 0 0 1.5px var(--l-coral);
+	}
+	.xfBox .tl { top: 0; left: 0; }
+	.xfBox .tr { top: 0; left: 100%; }
+	.xfBox .bl { top: 100%; left: 0; }
+	.xfBox .br { top: 100%; left: 100%; }
+	.xfBox .tm { top: 0; left: 50%; }
+	.xfBox .bm { top: 100%; left: 50%; }
+	.xfBox .lm { top: 50%; left: 0; }
+	.xfBox .rm { top: 50%; left: 100%; }
+	.xfHint {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 11px;
+		color: var(--mk-ink-soft);
+	}
+	.xfHint kbd {
+		font-family: var(--l-sans);
+		font-size: 10px;
+		padding: 2px 6px;
+		border-radius: 4px;
+		background: var(--mk-win);
+		border: 1px solid var(--mk-edge);
+		box-shadow: 0 1px 0 var(--mk-edge);
+		color: var(--mk-ink);
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Responsive                                                          */
+	/* ------------------------------------------------------------------ */
+	@media (max-width: 1024px) {
+		.heroInner {
+			grid-template-columns: 1fr;
+			gap: 48px;
+		}
+		.cards {
+			grid-template-columns: 1fr 1fr;
+		}
+		.row {
+			grid-template-columns: 1fr;
+			gap: 28px;
+		}
+		.row.alt .rowArt {
+			order: 0;
+		}
+	}
+	@media (max-width: 768px) {
+		.hero {
+			padding: 56px 20px;
+		}
+		.heroCopy h1 {
+			font-size: 36px;
+			letter-spacing: -0.5px;
+		}
+		.features,
+		.privacy,
+		.stack,
+		.showcase {
+			padding: 0 20px 56px;
+		}
+		.band > h2,
+		.stackCard h2,
+		.coral h2 {
+			font-size: 32px;
+			letter-spacing: -0.5px;
+		}
+		.rowCopy h3 {
+			font-size: 26px;
+		}
+		.cards {
+			grid-template-columns: 1fr;
+		}
+		.coral,
+		.stackCard {
+			padding: 36px 24px;
+		}
+	}
+</style>

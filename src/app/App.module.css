@@ -1,0 +1,96 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--bg-app);
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  /* Establishes a containing block so the inspector can detach into an
+     absolute overlay on narrow screens (see the @media block below). */
+  position: relative;
+}
+
+/* ------------------------------------------------------------------ */
+/* Narrow screens (phones / small tablets).                            */
+/*                                                                     */
+/* This editor was built as a fixed 3-column desktop layout with no     */
+/* breakpoints: a 46px tool rail, a flexible canvas, and a right        */
+/* inspector that defaults to 304px wide and refuses to shrink          */
+/* (`width` + `minWidth` set inline in RightPanel). On a 360px phone    */
+/* that left the canvas — the one child permitted to shrink — with      */
+/* roughly 10px of width. Three fixes, in order of importance:          */
+/*                                                                     */
+/*  1. Pin a minimum width on the canvas. Flexbox distributes overflow  */
+/*     by shrinking the children that are *allowed* to shrink; giving   */
+/*     the canvas a floor forces the loss onto the rail + inspector,     */
+/*     which then overflow (harmlessly, since they are clipped) rather  */
+/*     than crushing the document view.                                 */
+/*  2. Detach the inspector into an overlay so it stops competing for   */
+/*     row width at all. `max-width` in CSS always beats the inline      */
+/*     `width`/`minWidth`, so it stays inside the viewport however wide  */
+/*     the stored preference is. It keeps its own collapse chip, so it   */
+/*     can still be dismissed to reclaim the screen.                     */
+/*  3. Raise the tool rail a little — 46px is fine for a mouse but tight */
+/*     for a thumb.                                                     */
+/* ------------------------------------------------------------------ */
+@media (max-width: 900px) {
+  .main > [data-pf-canvas] {
+    min-width: min(56vw, 380px);
+  }
+
+  .main > [data-pf-inspector] {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: 30;
+    max-width: min(88vw, 380px);
+    box-shadow: -18px 0 40px rgb(0 0 0 / 0.45);
+    border-left: 1px solid var(--border-strong);
+  }
+
+  /* The collapsed 26px rail is a resize affordance; resizing a detached
+     overlay by its edge is not worth the accidental drags. Hide it — the
+     inspector's own chevron and the toggle button do the job. */
+  .main > [data-pf-inspector-rail] {
+    display: none;
+  }
+}
+
+/* Phones in portrait rarely have more than ~640px of height to spare once
+   the browser chrome is counted; keep the chrome itself from eating it. */
+@media (max-width: 900px) and (max-height: 520px) {
+  :global(html),
+  :global(body) {
+    /* svh tracks the *smallest* viewport, so rotating to landscape never
+       leaves the editor taller than the visible area. */
+    height: 100svh;
+  }
+}
+
+.recovery {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 32px;
+  padding: 0 12px;
+  background: var(--warn-bg);
+  border-bottom: 1px solid var(--warn-border);
+  color: var(--warn-text);
+  font-size: 11.5px;
+}
+
+.recoveryText {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recovery strong {
+  color: var(--warn-strong);
+}

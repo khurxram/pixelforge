@@ -1,0 +1,237 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  flex: none;
+  padding: 0 10px;
+  background: var(--bg-app);
+  border-bottom: 1px solid var(--border);
+  z-index: 25;
+}
+
+.toolBadge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  color: var(--text);
+}
+
+.toolName {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.divider {
+  width: 1px;
+  height: 18px;
+  flex: none;
+  background: var(--border);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* Must be allowed to shrink, or the overflow below never engages and the
+     options simply run off the right edge of the window, unreachable. */
+  flex: 1 1 auto;
+  min-width: 0;
+  /* Overflowing options scroll sideways instead of being clipped away. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  animation: pfOptIn 0.18s ease-out;
+}
+.controls::-webkit-scrollbar {
+  height: 0;
+}
+
+@keyframes pfOptIn {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Segmented icon buttons (selection modes, text alignment). */
+.segGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-panel, var(--bg-app));
+  flex: none;
+}
+
+.segBtn {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 20px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition:
+    background 0.14s ease,
+    color 0.14s ease,
+    transform 0.1s ease;
+}
+.segBtn:hover {
+  background: var(--bg-hover, rgba(255, 255, 255, 0.06));
+  color: var(--text);
+}
+.segBtn:active {
+  transform: scale(0.9);
+}
+.segBtn[data-active='true'] {
+  background: var(--accent-soft, rgba(84, 158, 255, 0.18));
+  color: var(--accent, #549eff);
+}
+
+/* On/off chips for boolean options. */
+.toggleChip {
+  flex: none;
+  height: 22px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 10.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.14s ease,
+    color 0.14s ease,
+    border-color 0.14s ease,
+    transform 0.1s ease;
+}
+.toggleChip:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+.toggleChip:active {
+  transform: scale(0.95);
+}
+.toggleChip[data-active='true'] {
+  background: var(--accent-soft, rgba(84, 158, 255, 0.18));
+  border-color: var(--accent, #549eff);
+  color: var(--accent, #549eff);
+}
+
+.inlineFields {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+.smallNum {
+  width: 44px;
+  height: 22px;
+  padding: 0 4px;
+  font-size: 11px;
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.sliderLabel {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  user-select: none;
+}
+
+.sliderRange {
+  width: 92px;
+}
+
+.sliderNumber {
+  width: 46px;
+  height: 22px;
+  padding: 0 4px;
+  font-size: 11px;
+}
+
+.suffix {
+  font-size: 10px;
+  color: var(--text-faint);
+  margin-left: -3px;
+}
+
+.selectRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.selectRow select {
+  height: 22px;
+  font-size: 11px;
+}
+
+.readout {
+  font-size: 10.5px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.textInput {
+  width: 220px;
+  height: 22px;
+  font-size: 11px;
+}
+
+.hint {
+  flex: 1;
+  min-width: 60px;
+  text-align: right;
+  font-size: 10.5px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 900px) {
+  .hint {
+    display: none;
+  }
+}
+
+.transformHint {
+  flex: 1;
+  min-width: 60px;
+  text-align: right;
+  font-size: 10.5px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1100px) {
+  .transformHint {
+    display: none;
+  }
+}

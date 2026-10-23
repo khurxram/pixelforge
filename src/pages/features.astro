@@ -1,0 +1,154 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/marketing/SiteHeader.astro';
+import SiteFooter from '../components/marketing/SiteFooter.astro';
+
+const groups = [
+	{
+		title: 'Select & transform',
+		items: [
+			{
+				title: 'Crop, resize, rotate, flip',
+				body: 'Free and aspect-locked crop with live handles, exact pixel resize, and 90° rotations or flips on the whole document.',
+			},
+			{
+				title: 'Rectangular, lasso and magic-wand selections',
+				body: 'Marquee a box, draw a freehand outline, or click once to select a contiguous colour range with adjustable tolerance. Invert, select all, or deselect at any time.',
+			},
+			{
+				title: 'Zoom, pan and fit',
+				body: 'Scroll to zoom around the cursor, space-drag to pan, fit to screen or jump to exact percentages from the status bar or keyboard.',
+			},
+		],
+	},
+	{
+		title: 'Paint & retouch',
+		items: [
+			{
+				title: 'Brush and eraser',
+				body: 'Soft-edged round brush with size and opacity controls paints the foreground colour straight onto the active layer — eraser takes pixels back out.',
+			},
+			{
+				title: 'Paint bucket and gradient',
+				body: 'Contiguous flood fill with tolerance, or drag out a foreground-to-background linear gradient.',
+			},
+			{
+				title: 'Blur, sharpen, dodge, burn, smudge',
+				body: 'Local retouching brushes that lighten, darken, soften or pull pixels along your stroke — all fully undoable.',
+			},
+			{
+				title: 'Clone stamp',
+				body: 'Alt-click to sample a source point, then paint the sample elsewhere — the classic fix for dust, wires and blemishes.',
+			},
+		],
+	},
+	{
+		title: 'Type & shapes',
+		items: [
+			{
+				title: 'Text tool',
+				body: 'Type a caption in the tool options and click the canvas to place it as its own layer, sized in pixels.',
+			},
+			{
+				title: 'Rectangle & ellipse',
+				body: 'Drag out filled rectangles or ellipses in the foreground colour, clipped to any active selection.',
+			},
+		],
+	},
+	{
+		title: 'Colour & adjustments',
+		items: [
+			{
+				title: 'Every adjustment, live',
+				body: 'Brightness, contrast, saturation, hue, temperature, tint, sharpness, blur, grayscale and sepia — previewed instantly on a downscaled copy, then applied at full resolution in a Web Worker.',
+			},
+			{
+				title: 'Eyedropper & swatches',
+				body: 'Sample any composited pixel into the foreground swatch, swap or reset swatches with one click, and fine-tune in the Color panel.',
+			},
+		],
+	},
+	{
+		title: 'Layers',
+		items: [
+			{
+				title: 'A real layer stack',
+				body: 'Add, duplicate, delete, rename, reorder and hide layers, set opacity and pick from 15 blend modes.',
+			},
+			{
+				title: 'Move tool',
+				body: 'Drag the active layer around the canvas; the document re-composites live.',
+			},
+		],
+	},
+	{
+		title: 'Files & history',
+		items: [
+			{
+				title: '25-step undo history',
+				body: 'Every document change lands in a bounded, clickable history — jump back and forward through states.',
+			},
+			{
+				title: 'Projects that survive the tab',
+				body: 'Save and reopen real .pixelforge files, with autosave to IndexedDB and recovery after a crash or refresh.',
+			},
+			{
+				title: 'Exports that do not shrink',
+				body: 'PNG, JPEG and WebP export always recomposites the full-resolution document — what you see at 100 % is exactly what downloads.',
+			},
+		],
+	},
+];
+---
+
+<Layout title="Features — PixelForge" shell="landing">
+	<SiteHeader />
+
+	<main class="mk-main">
+		<div class="mk-band">
+			<header class="mk-hero">
+				<span class="mk-eyebrow">Features</span>
+				<h1 class="mk-h1">Everything PixelForge can do.</h1>
+				<p class="mk-lede">
+					One tab, no installs, no uploads. Here is the full toolbox — every tool below
+					works today, on your own machine.
+				</p>
+			</header>
+
+			{
+				groups.map((g) => (
+					<section class="mkGroup" data-reveal>
+						<h2 class="mk-h2">{g.title}</h2>
+						<div class="mk-grid">
+							{g.items.map((item, i) => (
+								<article class="mk-card" data-reveal style={`--d: ${i}`}>
+									<h3>{item.title}</h3>
+									<p>{item.body}</p>
+								</article>
+							))}
+						</div>
+					</section>
+				))
+			}
+
+			<div class="mk-ctaRow" data-reveal>
+				<a class="btnPrimary lg" href="/editor">Open the editor</a>
+				<a class="btnSecondary lg" href="/privacy">How privacy works</a>
+			</div>
+		</div>
+	</main>
+
+	<SiteFooter />
+</Layout>
+
+<style>
+	.mkGroup {
+		margin-top: 64px;
+	}
+	.mkGroup:first-of-type {
+		margin-top: 0;
+	}
+	.mkGroup .mk-h2 {
+		margin-bottom: 24px;
+	}
+</style>

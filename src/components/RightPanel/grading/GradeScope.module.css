@@ -1,0 +1,30 @@
+.wrap {
+  margin-bottom: 10px;
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.live {
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+  color: #57d98a;
+}
+
+.scope {
+  display: block;
+  width: 100%;
+  height: 96px;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  background: #050906;
+}

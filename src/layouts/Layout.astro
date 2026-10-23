@@ -1,14 +1,172 @@
+---
+import '../styles/global.css';
+import viewTransitions from '../styles/view-transitions.css?inline';
+
+interface Props {
+	title?: string;
+	/** 'editor' locks scrolling; 'landing' allows normal page scroll. */
+	shell?: 'editor' | 'landing';
+}
+
+const { title = 'PixelForge — Browser Photo Editor', shell = 'editor' } = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
+		<!-- Cross-document view transitions have to be declared in the document
+		     itself, ahead of the render-blocking stylesheets. Chrome looks for
+		     `@view-transition` when the navigation commits; if the stylesheet
+		     carrying it is still in flight the transition is skipped entirely
+		     and the new page simply appears — no slide, no motion blur.
+		     Inlining it makes the effect independent of network timing. -->
+		<style is:inline set:html={viewTransitions}></style>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="PixelForge — a local-first, browser-based photo editor. Your images never leave your device."
+		/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
+		<script is:inline>
+			/* Theme bootstrapper — runs before first paint so there is no flash.
+			   Any element with [data-theme-toggle] flips the theme (delegated,
+			   so both the Astro landing nav and the React top bar share it). */
+			(function () {
+				var root = document.documentElement;
+				var KEY = 'pf-theme';
+
+				function reduced() {
+					try {
+						return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+					} catch (e) {
+						return true;
+					}
+				}
+				function stored() {
+					try {
+						return localStorage.getItem(KEY);
+					} catch (e) {
+						return null;
+					}
+				}
+				function system() {
+					try {
+						return window.matchMedia('(prefers-color-scheme: dark)').matches
+							? 'dark'
+							: 'light';
+					} catch (e) {
+						return 'light';
+					}
+				}
+				function apply(theme) {
+					root.setAttribute('data-theme', theme);
+					root.style.colorScheme = theme;
+					var label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+					var btns = document.querySelectorAll('[data-theme-toggle]');
+					for (var i = 0; i < btns.length; i++) {
+						btns[i].setAttribute('aria-label', label);
+						btns[i].setAttribute('title', label);
+					}
+					try {
+						localStorage.setItem(KEY, theme);
+					} catch (e) {
+						/* ignore */
+					}
+				}
+				apply(stored() || system());
+
+				/* Navigation direction for cross-document transitions: "open" the
+				   editor (landing drops down, editor slides in from the top) or
+				   "close" it (editor lifts up, landing rises from the bottom). */
+				try {
+					var bootDir = sessionStorage.getItem('pf-nav-dir');
+					if (bootDir) root.setAttribute('data-vt-dir', bootDir);
+				} catch (e) {
+					/* ignore */
+				}
+				document.addEventListener(
+					'click',
+					function (e) {
+						var el = e.target;
+						var a = null;
+						while (el && el !== document) {
+							if (el.tagName === 'A' && el.getAttribute && el.getAttribute('href') !== null) {
+								a = el;
+								break;
+							}
+							el = el.parentNode;
+						}
+						if (!a) return;
+						var href = a.getAttribute('href') || '';
+						var dir = null;
+						if (href === '/editor' || href.indexOf('/editor?') === 0 || href.indexOf('/editor#') === 0) dir = 'open';
+						else if (href === '/' || href.indexOf('/#') === 0) dir = 'close';
+						try {
+							if (dir) {
+								sessionStorage.setItem('pf-nav-dir', dir);
+								root.setAttribute('data-vt-dir', dir);
+							} else {
+								sessionStorage.removeItem('pf-nav-dir');
+								root.removeAttribute('data-vt-dir');
+							}
+						} catch (e2) {
+							/* ignore */
+						}
+					},
+					true,
+				);
+
+				function toggle(btn) {
+					var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+					if (reduced()) {
+						apply(next);
+					} else if (typeof document.startViewTransition === 'function') {
+						/* Remember where the switch sits so the new theme can
+						   wipe outward from it in a circle. */
+						if (btn && btn.getBoundingClientRect) {
+							var r = btn.getBoundingClientRect();
+							root.style.setProperty('--pf-tx', Math.round(r.left + r.width / 2) + 'px');
+							root.style.setProperty('--pf-ty', Math.round(r.top + r.height / 2) + 'px');
+						}
+						root.setAttribute('data-vt', 'theme');
+						var vt = document.startViewTransition(function () {
+							apply(next);
+						});
+						var done = function () {
+							root.removeAttribute('data-vt');
+						};
+						if (vt.finished && vt.finished.finally) vt.finished.finally(done);
+						else window.setTimeout(done, 1200);
+					} else {
+						root.classList.add('theme-animating');
+						apply(next);
+						window.setTimeout(function () {
+							root.classList.remove('theme-animating');
+						}, 700);
+					}
+				}
+
+				window.pfTheme = { toggle: toggle, apply: apply, current: function () { return root.getAttribute('data-theme'); } };
+
+				document.addEventListener('click', function (e) {
+					var el = e.target;
+					while (el && el !== document) {
+						if (el.getAttribute && el.getAttribute('data-theme-toggle') !== null) break;
+						el = el.parentNode;
+					}
+					if (el && el !== document) {
+						e.preventDefault();
+						toggle(el);
+					}
+				});
+			})();
+		</script>
 	</head>
-	<body>
+	<body data-page={shell}>
 		<slot />
 	</body>
 </html>
@@ -18,6 +176,18 @@
 	body {
 		margin: 0;
 		width: 100%;
+	}
+	html {
 		height: 100%;
+	}
+	/* Editor shell: fixed viewport, no page scroll. */
+	body[data-page='editor'] {
+		height: 100%;
+		overflow: hidden;
+	}
+	/* Landing shell: document flow scrolls. */
+	body[data-page='landing'] {
+		height: auto;
+		min-height: 100%;
 	}
 </style>

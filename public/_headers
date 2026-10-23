@@ -1,0 +1,21 @@
+# Cloudflare custom headers (parsed by Workers Static Assets, not served).
+#
+# Rule ordering matters: `/*` also matches `/_astro/*`, and when two rules set
+# the same header Cloudflare joins the values with a comma. A joined
+# `Cache-Control: max-age=0, ..., max-age=31536000, immutable` reads as
+# "do not cache", so security headers live *only* in `/*` and the immutable
+# cache rule lives *only* in `/_astro/*` — each header is declared exactly once.
+# HTML not covered by a rule keeps Cloudflare's default
+# `public, max-age=0, must-revalidate`, so a deploy shows up immediately.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

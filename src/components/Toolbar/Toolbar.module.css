@@ -1,0 +1,245 @@
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--toolbar-w);
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  padding: 6px 0 10px;
+  /* The tool list scrolls inside; the color swatches stay pinned to the bottom. */
+  overflow: hidden;
+}
+
+.tools {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 6px;
+}
+
+.slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.divider {
+  width: 26px;
+  height: 1px;
+  margin: 6px 0 5px;
+  background: var(--border);
+}
+
+.tool {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition:
+    background-color 0.14s ease,
+    border-color 0.14s ease,
+    color 0.14s ease,
+    transform 0.12s ease;
+}
+.tool:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text);
+  transform: translateY(-0.5px);
+}
+.tool:active:not(:disabled) {
+  background: var(--bg-active);
+  transform: scale(0.92);
+}
+/* Unimplemented tools stay clearly visible — just visibly inert. */
+.tool:disabled {
+  color: var(--text-faint);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+.active {
+  background: var(--accent-quiet) !important;
+  border-color: var(--accent-line);
+  color: var(--accent-hover);
+}
+.active:hover:not(:disabled) {
+  background: var(--accent-quiet);
+  color: var(--accent-hover);
+}
+
+/* Corner triangle marking a grouped tool with a flyout. */
+.flyoutMark {
+  position: absolute;
+  right: 2.5px;
+  bottom: 2.5px;
+  width: 0;
+  height: 0;
+  border-left: 3.5px solid transparent;
+  border-bottom: 3.5px solid var(--text-faint);
+  transform: rotate(0deg);
+  opacity: 0.85;
+}
+
+/* Flyout menu listing a group's subtools.
+   Rendered in a portal with fixed positioning (top/left set inline from the
+   button's rect) so the rail's overflow can never clip it. */
+.flyout {
+  position: fixed;
+  z-index: 60;
+  min-width: 190px;
+  padding: 4px;
+  background: var(--bg-panel-alt, var(--bg-panel));
+  border: 1px solid var(--border-strong, var(--border));
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  transform-origin: left center;
+  animation: pfFlyoutIn 0.16s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+@keyframes pfFlyoutIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.flyoutItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 6px 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  color: var(--text-dim);
+  font-size: 11.5px;
+  cursor: pointer;
+  text-align: left;
+  /* Items cascade out one after another; delay is set inline per index. */
+  animation: pfFlyoutItemIn 0.18s cubic-bezier(0.2, 0.9, 0.3, 1) backwards;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+@keyframes pfFlyoutItemIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.flyoutItem:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.flyoutItem[data-active='true'] {
+  color: var(--accent-hover);
+}
+
+.flyoutLabel {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.flyoutCheck {
+  color: var(--accent-hover);
+  flex: none;
+}
+
+.colors {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* Foreground/background pair: the two swatches overlap corner-to-corner. */
+.swatchBox {
+  position: relative;
+  width: 28px;
+  height: 28px;
+}
+
+.swatchFg,
+.swatchBg {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--bg-panel);
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px var(--border-strong);
+  cursor: pointer;
+  overflow: hidden;
+}
+.swatchFg {
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+.swatchBg {
+  left: 10px;
+  top: 10px;
+  z-index: 1;
+}
+
+.colorInput {
+  position: absolute;
+  inset: -5px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Swap (X) and default-colors (D) buttons sit in a row under the pair. */
+.miniRow {
+  display: flex;
+  gap: 4px;
+}
+
+.swap,
+.reset {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.swap:hover,
+.reset:hover {
+  color: var(--text);
+  border-color: var(--accent-line);
+}

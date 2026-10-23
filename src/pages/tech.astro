@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/marketing/SiteHeader.astro';
+import SiteFooter from '../components/marketing/SiteFooter.astro';
+
+const stack = [
+	{
+		title: 'React + TypeScript (strict)',
+		body: 'The UI is React with TypeScript in full strict mode, mounted into an Astro shell. Editor state flows through a small hand-rolled observable store — no Redux, no runtime dependencies you did not ask for.',
+	},
+	{
+		title: 'Vite + Astro',
+		body: 'Astro provides the static pages and hands the editor route to Vite for instant HMR. Production builds ship as plain static files — host it anywhere.',
+	},
+	{
+		title: 'Canvas 2D rendering',
+		body: 'The document composites through Canvas 2D with per-layer canvas caching, so only layers whose pixels actually changed get re-uploaded to the GPU.',
+	},
+	{
+		title: 'Web Workers for heavy math',
+		body: 'Adjustments and other full-resolution operations run off the main thread, so sliders stay at 60 fps while a 12-megapixel image is being recalculated.',
+	},
+	{
+		title: 'IndexedDB persistence',
+		body: 'Autosave and browser-stored projects go through a small typed IndexedDB layer, with a versioned .pixelforge container format and a migration chain for future versions.',
+	},
+	{
+		title: 'CSS Modules + design tokens',
+		body: 'Every editor component scopes its own styles with CSS Modules; the landing pages share a token set derived from DESIGN.md, in light and dark.',
+	},
+	{
+		title: 'Vitest + Playwright',
+		body: 'Unit tests cover the pure core (documents, imaging, history, persistence) in Node, while Playwright drives real end-to-end flows in a real browser.',
+	},
+];
+---
+
+<Layout title="Tech — PixelForge" shell="landing">
+	<SiteHeader />
+
+	<main class="mk-main">
+		<div class="mk-band">
+			<header class="mk-hero">
+				<span class="mk-eyebrow">Tech</span>
+				<h1 class="mk-h1">Built on the open web.</h1>
+				<p class="mk-lede">
+					No backend, no database, no external APIs or CDN assets. Every line runs in your
+					browser — inspect the network tab and watch it stay quiet.
+				</p>
+			</header>
+
+			<div class="mk-grid">
+				{
+					stack.map((s, i) => (
+						<article class="mk-card" data-reveal style={`--d: ${i}`}>
+							<h3>{s.title}</h3>
+							<p>{s.body}</p>
+						</article>
+					))
+				}
+			</div>
+
+			<div class="mk-ctaRow" data-reveal>
+				<a class="btnPrimary lg" href="/editor">Launch PixelForge</a>
+				<a class="btnSecondary lg" href="/features">Browse the features</a>
+			</div>
+			<p class="mk-meta" data-reveal>
+				React · TypeScript (strict) · Vite · Astro · Canvas 2D · Web Workers · IndexedDB ·
+				CSS Modules · Vitest · Playwright
+			</p>
+		</div>
+	</main>
+
+	<SiteFooter />
+</Layout>

@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../components/marketing/SiteHeader.astro';
+import SiteFooter from '../components/marketing/SiteFooter.astro';
+---
+
+<Layout title="Page not found — PixelForge" shell="landing">
+	<SiteHeader />
+
+	<main class="mk-main">
+		<div class="mk-band">
+			<header class="mk-hero">
+				<span class="mk-eyebrow">404</span>
+				<h1 class="mk-h1">That page isn’t in the darkroom.</h1>
+				<p class="mk-lede">
+					The link may be old, or the address mistyped. Nothing was lost — the editor and
+					its documentation are a click away.
+				</p>
+			</header>
+
+			<div class="mk-ctaRow">
+				<a class="btnPrimary lg" href="/" data-astro-prefetch>Back to home</a>
+				<a class="btnSecondary lg" href="/editor">Open the editor</a>
+				<a class="btnSecondary lg" href="/features">See what it does</a>
+			</div>
+		</div>
+	</main>
+
+	<SiteFooter />
+</Layout>

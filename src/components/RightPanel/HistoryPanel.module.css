@@ -1,0 +1,57 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-input);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item:last-child {
+  border-bottom: none;
+}
+.item:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  flex-shrink: 0;
+}
+
+.current {
+  background: var(--accent-quiet);
+  color: var(--text);
+}
+.current .dot {
+  background: var(--accent);
+}
+
+.undone {
+  opacity: 0.45;
+}
+
+.hint {
+  margin: 6px 0 0;
+  color: var(--text-faint);
+  font-size: 10px;
+}

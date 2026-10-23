@@ -1,0 +1,57 @@
+.wrap {
+  margin-bottom: 10px;
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.keys {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--text-faint);
+}
+
+.kR,
+.kG,
+.kB,
+.kL {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+}
+
+.kR {
+  background: rgba(255, 90, 80, 0.85);
+}
+.kG {
+  background: rgba(90, 230, 110, 0.85);
+}
+.kB {
+  background: rgba(90, 130, 255, 0.85);
+}
+.kL {
+  background: rgba(235, 235, 225, 0.9);
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 96px;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  background: #070807;
+}

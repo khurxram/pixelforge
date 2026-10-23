@@ -1,0 +1,170 @@
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.legendGap {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  width: 100%;
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 0;
+  color: var(--text-dim);
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.checkRow input {
+  accent-color: var(--accent);
+  margin: 0;
+}
+.checkRow:hover {
+  color: var(--text);
+}
+
+.selectRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 0;
+  color: var(--text-dim);
+  font-size: 11.5px;
+}
+.selectRow span {
+  white-space: nowrap;
+}
+.selectRow select {
+  flex: 1;
+  min-width: 0;
+  max-width: 150px;
+}
+
+.autoRow {
+  display: flex;
+  gap: 5px;
+  margin: 8px 0 2px;
+}
+.autoRow .pf-btn {
+  flex: 1;
+  padding: 4px 6px;
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+.actions .pf-btn {
+  flex: 1;
+  padding: 0 6px;
+}
+
+.note {
+  margin: 8px 0 0;
+  color: var(--text-faint);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+.note strong {
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.badge {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-faint);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ------- grader style switch (DaVinci wheels vs Photoshop sliders) ------- */
+.styleSwitch {
+  display: flex;
+  gap: 0;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.styleBtn,
+.styleActive {
+  flex: 1;
+  height: 24px;
+  border: none;
+  background: var(--bg-panel-alt);
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+.styleBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.styleActive {
+  background: var(--accent);
+  color: #fff;
+}
+.styleActive:hover {
+  background: var(--accent-hover);
+  color: #fff;
+}
+
+/* ------------------------- DaVinci-style grader -------------------------- */
+.wheels {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 2px 0 4px;
+}
+
+.presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+.preset {
+  height: 24px;
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  background: var(--bg-panel-alt);
+  color: var(--text-dim);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 6px;
+  transition:
+    background-color 0.14s ease,
+    border-color 0.14s ease,
+    color 0.14s ease;
+}
+.preset:hover {
+  background: var(--accent-quiet);
+  border-color: var(--accent-line);
+  color: var(--text);
+}

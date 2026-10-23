@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /editor/
+
+# PixelForge is local-first: nothing on this site talks to an API, and the
+# editor is an application rather than a document worth indexing.
